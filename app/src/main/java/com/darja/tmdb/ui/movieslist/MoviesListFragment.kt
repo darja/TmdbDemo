@@ -1,11 +1,10 @@
 package com.darja.tmdb.ui.movieslist
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -13,11 +12,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.darja.tmdb.MainActivity
 import com.darja.tmdb.R
 import com.darja.tmdb.databinding.FragmentMoviesListBinding
+import com.darja.tmdb.util.DPLog
 import kotlinx.android.synthetic.main.fragment_movies_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MoviesListFragment: Fragment() {
     val viewModel: MoviesListViewModel by viewModel()
+
+    private lateinit var searchView: SearchView
+    private lateinit var searchMenuItem: MenuItem
 
     private val adapter: MoviesAdapter by lazy {
         MoviesAdapter(viewModel.movies)
@@ -40,6 +43,11 @@ class MoviesListFragment: Fragment() {
         observeViewModel()
         setupMoviesGrid()
         setupToolbar()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     private fun observeViewModel() {
@@ -67,5 +75,37 @@ class MoviesListFragment: Fragment() {
         (activity as AppCompatActivity).run {
             setSupportActionBar(toolbar)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        activity?.menuInflater?.inflate(R.menu.movies_list, menu)
+        setupSearchView(menu)
+    }
+
+    private fun setupSearchView(menu: Menu) {
+        searchMenuItem = menu.findItem(R.id.action_search) ?: return
+        searchView = searchMenuItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel.searchMovies(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+
+        searchMenuItem.setOnActionExpandListener(object: MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                DPLog.checkpoint()
+                return true
+            }
+        })
     }
 }

@@ -36,4 +36,19 @@ class MoviesListViewModel(val repo: MoviesRepo,
             })
             .addTo(bag)
     }
+
+    fun searchMovies(query: String) {
+        isLoadingData.postValue(true)
+        repo.searchMovies(query)
+            .with(schedulers)
+            .subscribe({
+                movies.clear()
+                movies.addAll(it.movies)
+                isLoadingData.postValue(false)
+            }, {
+                isLoadingData.postValue(false)
+                errorData.postValue(it.message)
+            })
+            .addTo(bag)
+    }
 }
