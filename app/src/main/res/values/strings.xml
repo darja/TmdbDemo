@@ -5,4 +5,6 @@
     <string name="title_movie_details">Movie Details</string>
 
     <string name="menu_search">Search</string>
+
+    <string name="no_result">Nothing found</string>
 </resources>

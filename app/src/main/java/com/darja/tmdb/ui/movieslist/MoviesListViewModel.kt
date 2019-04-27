@@ -15,21 +15,26 @@ class MoviesListViewModel(val repo: MoviesRepo,
                           val schedulers: SchedulerProvider): ViewModel() {
     private val isLoadingData = MutableLiveData<Boolean>()
     private val errorData = MutableLiveData<String>()
+    private val isResultEmptyData = MutableLiveData<Boolean>()
 
-    private val bag = CompositeDisposable()
+        private val bag = CompositeDisposable()
 
     val movies = ObservableArrayList<Movie>()
     val isLoading: LiveData<Boolean> = isLoadingData
+    val isResultEmpty: LiveData<Boolean> = isResultEmptyData
     val error: LiveData<String> = errorData
 
     fun requestMovies() {
         isLoadingData.postValue(true)
+        isResultEmptyData.postValue(false)
         repo.getNowPlayingMovies()
             .with(schedulers)
             .subscribe({
                 movies.clear()
                 movies.addAll(it.movies)
                 isLoadingData.postValue(false)
+                isResultEmptyData.postValue(movies.isEmpty())
+
             }, {
                 isLoadingData.postValue(false)
                 errorData.postValue(it.message)
@@ -39,12 +44,15 @@ class MoviesListViewModel(val repo: MoviesRepo,
 
     fun searchMovies(query: String) {
         isLoadingData.postValue(true)
+        isResultEmptyData.postValue(false)
+
         repo.searchMovies(query)
             .with(schedulers)
             .subscribe({
                 movies.clear()
                 movies.addAll(it.movies)
                 isLoadingData.postValue(false)
+                isResultEmptyData.postValue(movies.isEmpty())
             }, {
                 isLoadingData.postValue(false)
                 errorData.postValue(it.message)
