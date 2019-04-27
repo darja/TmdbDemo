@@ -13,6 +13,7 @@ import com.darja.tmdb.MainActivity
 import com.darja.tmdb.R
 import com.darja.tmdb.databinding.FragmentMoviesListBinding
 import com.darja.tmdb.util.DPLog
+import com.darja.tmdb.util.ScreenUtil
 import kotlinx.android.synthetic.main.fragment_movies_list.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -89,6 +90,7 @@ class MoviesListFragment: Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 viewModel.searchMovies(query)
+                ScreenUtil.hideSoftKeyboard(activity)
                 return true
             }
 
@@ -104,8 +106,14 @@ class MoviesListFragment: Fragment() {
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 DPLog.checkpoint()
+                onSearchQueryClosed()
                 return true
             }
         })
+    }
+
+    private fun onSearchQueryClosed() {
+        viewModel.requestMovies()
+        ScreenUtil.hideSoftKeyboard(activity)
     }
 }
