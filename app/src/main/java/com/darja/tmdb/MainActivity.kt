@@ -18,6 +18,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openMovieDetails(movie: Movie) {
-        replaceFragmentSafely(MovieDetailsFragment.newInstance(movie), MovieDetailsFragment::class.java.simpleName, containerViewId = R.id.container)
+        replaceFragmentSafely(MovieDetailsFragment.newInstance(movie),
+            MovieDetailsFragment::class.java.simpleName,
+            containerViewId = R.id.container,
+            addToBackStack = true)
     }
 }
