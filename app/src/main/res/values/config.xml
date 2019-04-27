@@ -3,4 +3,5 @@
     <string name="tmdb_base_url">https://api.themoviedb.org/3/</string>
     <string name="tmdb_api_key">0a33c93cb136cdfb4dad1c5ea68e824f</string>
     <string name="poster_base_url">https://image.tmdb.org/t/p/w200</string>
+    <string name="backdrop_base_url">https://image.tmdb.org/t/p/original</string>
 </resources>
