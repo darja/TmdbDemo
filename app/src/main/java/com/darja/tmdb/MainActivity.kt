@@ -5,24 +5,20 @@ import android.os.Bundle
 
 class MainActivity : AppCompatActivity() {
     val api: TmdbApi by inject()
+    val schedulers: SchedulerProvider by inject()
+    val bag = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        api.getNowPlayingMovies().enqueue(object: Callback<ApiMoviesPage> {
-            override fun onFailure(call: Call<ApiMoviesPage>, t: Throwable) {
+        api.getNowPlayingMovies()
+            .with(schedulers)
+            .subscribe({
+                DPLog.i("%s movies playing", it.movies.size)
+            }, {
                 DPLog.e("Request failed")
-            }
-
-            override fun onResponse(call: Call<ApiMoviesPage>, response: Response<ApiMoviesPage>) {
-                if (response.isSuccessful) {
-                    DPLog.i("%s movies playing", response.body()?.movies?.size)
-                } else {
-                    DPLog.e("Bad response", response.errorBody())
-                }
-            }
-
-        })
+            })
+            .addTo(bag)
     }
 }
