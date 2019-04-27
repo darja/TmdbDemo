@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -37,6 +38,7 @@ class MoviesListFragment: Fragment() {
 
         observeViewModel()
         setupMoviesGrid()
+        setupToolbar()
     }
 
     private fun observeViewModel() {
@@ -51,8 +53,15 @@ class MoviesListFragment: Fragment() {
         })
     }
 
-    fun setupMoviesGrid() {
+    private fun setupMoviesGrid() {
         moviesGrid.layoutManager = GridLayoutManager(context, 2)
         moviesGrid.adapter = adapter
+    }
+
+    private fun setupToolbar() {
+        (activity as AppCompatActivity).run {
+            setSupportActionBar(toolbar)
+            setTitle(R.string.title_movies)
+        }
     }
 }
