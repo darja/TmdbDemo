@@ -23,12 +23,15 @@ class MoviesListViewModel(val repo: MoviesRepo,
     val error: LiveData<String> = errorData
 
     fun requestMovies() {
+        isLoadingData.postValue(true)
         repo.getNowPlayingMovies()
             .with(schedulers)
             .subscribe({
                 movies.clear()
                 movies.addAll(it.movies)
+                isLoadingData.postValue(false)
             }, {
+                isLoadingData.postValue(false)
                 errorData.postValue(it.message)
             })
             .addTo(bag)
