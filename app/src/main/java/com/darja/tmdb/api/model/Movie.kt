@@ -10,7 +10,7 @@ class Movie {
     lateinit var title: String
 
     @SerializedName("poster_path")
-    var thumbnail: String? = null
+    var poster: String? = null
 
     @SerializedName("overview")
     var description: String? = null

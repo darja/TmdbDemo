@@ -5,6 +5,15 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
+
+    androidExtensions {
+        experimental = true
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.darja.tmdb"
         minSdkVersion 21
@@ -60,6 +69,10 @@ dependencies {
     // Gson
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:4.9.0"
+    kapt "com.github.bumptech.glide:compiler:4.9.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

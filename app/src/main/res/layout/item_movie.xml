@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable name="viewModel" type="com.darja.tmdb.api.model.Movie"/>
+        <variable name="onClickListener" type="android.view.View.OnClickListener"/>
+    </data>
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@{viewModel.title}"
+            android:onClick="@{onClickListener::onClick}"
+            app:baseUrl="@{@string/poster_base_url}"
+            app:url="@{viewModel.poster}"
+            android:background="@color/colorPrimary"
+    />
+</layout>

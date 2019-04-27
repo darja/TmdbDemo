@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="android.view.View"/>
+        <variable name="viewModel" type="com.darja.tmdb.ui.movieslist.MoviesListViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent" android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="0dp"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Toolbar -->
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+            />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Movies Grid -->
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/moviesGrid"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/app_bar"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+        <!-- Progress -->
+        <ProgressBar android:layout_width="wrap_content" android:layout_height="wrap_content"
+                     android:id="@+id/progressBar"
+                     android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintTop_toBottomOf="@id/app_bar"
+                     app:layout_constraintBottom_toBottomOf="parent"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
