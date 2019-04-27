@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.darja.tmdb.MainActivity
 import com.darja.tmdb.R
 import com.darja.tmdb.databinding.FragmentMoviesListBinding
 import kotlinx.android.synthetic.main.fragment_movies_list.*
@@ -54,6 +55,10 @@ class MoviesListFragment: Fragment() {
     }
 
     private fun setupMoviesGrid() {
+        adapter.onClickListener = { movie, _ ->
+            (activity as MainActivity).openMovieDetails(movie)
+        }
+
         moviesGrid.layoutManager = GridLayoutManager(context, 2)
         moviesGrid.adapter = adapter
     }
@@ -61,7 +66,6 @@ class MoviesListFragment: Fragment() {
     private fun setupToolbar() {
         (activity as AppCompatActivity).run {
             setSupportActionBar(toolbar)
-            setTitle(R.string.title_movies)
         }
     }
 }

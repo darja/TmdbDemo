@@ -1,5 +1,6 @@
 package com.darja.tmdb.app.di
 
+import com.darja.tmdb.ui.moviedetails.MovieDetailsViewModel
 import com.darja.tmdb.ui.movieslist.MoviesListViewModel
 import com.darja.tmdb.util.rx.ApplicationSchedulerProvider
 import com.darja.tmdb.util.rx.SchedulerProvider
@@ -12,4 +13,5 @@ val app = module {
 
 val viewModels = module {
     viewModel { MoviesListViewModel(get(), get()) }
+    viewModel { MovieDetailsViewModel() }
 }
