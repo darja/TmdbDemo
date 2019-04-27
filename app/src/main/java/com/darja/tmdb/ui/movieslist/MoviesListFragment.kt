@@ -33,7 +33,7 @@ class MoviesListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState == null) {
+        if (viewModel.movies.isEmpty()) {
             viewModel.requestMovies()
         }
 

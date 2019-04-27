@@ -4,6 +4,7 @@ import androidx.annotation.AnimRes
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.darja.tmdb.R
 
 fun AppCompatActivity.replaceFragmentSafely(
     fragment: Fragment,
@@ -31,4 +32,18 @@ fun AppCompatActivity.replaceFragmentSafely(
     } else if (allowStateLoss) {
         ft.commitAllowingStateLoss()
     }
+}
+
+fun AppCompatActivity.replaceFragmentWithSlide(
+    fragment: Fragment,
+    tag: String,
+    @IdRes containerViewId: Int,
+    addToBackStack: Boolean = false
+) {
+    replaceFragmentSafely(fragment, tag, containerViewId,
+        enterAnimation = R.anim.slide_in,
+        exitAnimation = R.anim.fade_out,
+        popEnterAnimation = R.anim.fade_in,
+        popExitAnimation = R.anim.slide_out,
+        addToBackStack = addToBackStack)
 }

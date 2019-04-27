@@ -6,6 +6,7 @@ import com.darja.tmdb.api.model.Movie
 import com.darja.tmdb.ui.moviedetails.MovieDetailsFragment
 import com.darja.tmdb.ui.movieslist.MoviesListFragment
 import com.darja.tmdb.util.ext.replaceFragmentSafely
+import com.darja.tmdb.util.ext.replaceFragmentWithSlide
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openMovieDetails(movie: Movie) {
-        replaceFragmentSafely(MovieDetailsFragment.newInstance(movie),
+        replaceFragmentWithSlide(MovieDetailsFragment.newInstance(movie),
             MovieDetailsFragment::class.java.simpleName,
             containerViewId = R.id.container,
             addToBackStack = true)
