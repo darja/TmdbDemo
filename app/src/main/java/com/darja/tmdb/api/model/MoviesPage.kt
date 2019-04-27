@@ -2,7 +2,7 @@ package com.darja.tmdb.api.model
 
 import com.google.gson.annotations.SerializedName
 
-class ApiMoviesPage {
+class MoviesPage {
     @SerializedName("page")
     val page: Int = 0
 
@@ -10,5 +10,5 @@ class ApiMoviesPage {
     val totalPagesCount: Int = 0
 
     @SerializedName("results")
-    lateinit var movies: List<ApiMovie>
+    lateinit var movies: List<Movie>
 }

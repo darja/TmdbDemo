@@ -4,6 +4,8 @@ import android.content.Context
 import com.darja.tmdb.R
 import com.darja.tmdb.api.ApiKeyInterceptor
 import com.darja.tmdb.api.TmdbApi
+import com.darja.tmdb.repo.MoviesRepo
+import com.darja.tmdb.repo.TmdbRepo
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -17,6 +19,7 @@ import java.util.concurrent.TimeUnit
 val api = module {
     single { NetworkBuilder.buildRetrofit(androidApplication()) }
     single { NetworkBuilder.buildApi(get())}
+    single { TmdbRepo(get()) as MoviesRepo }
 }
 
 private object NetworkBuilder {

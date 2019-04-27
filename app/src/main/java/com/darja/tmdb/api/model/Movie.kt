@@ -2,7 +2,7 @@ package com.darja.tmdb.api.model
 
 import com.google.gson.annotations.SerializedName
 
-class ApiMovie {
+class Movie {
     @SerializedName("id")
     var id: Long = 0
 
