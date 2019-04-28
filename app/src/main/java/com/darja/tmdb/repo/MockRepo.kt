@@ -18,7 +18,7 @@ class MockRepo(context: Context): MoviesRepo {
     override fun searchMovies(query: String): Single<MoviesPage> {
         return Single.timer(2, TimeUnit.SECONDS)
             .map { val page = MoviesPage()
-                page.movies = mockContent.movies.filter { it.title.contains(query) }
+                page.movies = mockContent.movies.filter { it.title.contains(query, ignoreCase = true) }
                 page
             }
     }

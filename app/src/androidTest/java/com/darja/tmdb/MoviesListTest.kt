@@ -1,9 +1,10 @@
 package com.darja.tmdb
 
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -11,6 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.darja.tmdb.ui.common.BindingViewHolder
 import com.darja.tmdb.util.RecyclerViewItemCountAssertion
+import com.darja.tmdb.util.clickMenuItem
 import com.darja.tmdb.util.getVisibility
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.Rule
@@ -33,8 +35,10 @@ class MoviesListTest {
     @Test
     fun testLoadingProgress() {
         onView(withId(R.id.progressBar)).check(getVisibility(Visibility.VISIBLE))
+        onView(withId(R.id.empty_indicator)).check(getVisibility(Visibility.GONE))
         Thread.sleep(2500)
         onView(withId(R.id.progressBar)).check(getVisibility(Visibility.GONE))
+        onView(withId(R.id.empty_indicator)).check(getVisibility(Visibility.GONE))
     }
 
     @Test
@@ -42,6 +46,7 @@ class MoviesListTest {
         onView(withId(R.id.moviesGrid)).check(RecyclerViewItemCountAssertion(0))
         Thread.sleep(2500)
         onView(withId(R.id.moviesGrid)).check(RecyclerViewItemCountAssertion(20))
+        onView(withId(R.id.empty_indicator)).check(getVisibility(Visibility.GONE))
     }
 
     @Test
@@ -88,5 +93,48 @@ class MoviesListTest {
         ).check(
             matches(withText("Movie Details"))
         )
+    }
+
+    @Test
+    fun testSearchWithResults() {
+        clickMenuItem(R.id.action_search)
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java))
+            .perform(click(), typeText("hell"), pressImeActionButton())
+
+        Thread.sleep(2500)
+        onView(withId(R.id.moviesGrid)).check(RecyclerViewItemCountAssertion(1))
+        onView(withId(R.id.empty_indicator)).check(getVisibility(Visibility.GONE))
+    }
+
+    @Test
+    fun testSearchWithNoResults() {
+        clickMenuItem(R.id.action_search)
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java))
+            .perform(click(), typeText("fafdasdf"), pressImeActionButton())
+
+        Thread.sleep(2500)
+        onView(withId(R.id.moviesGrid)).check(RecyclerViewItemCountAssertion(0))
+        onView(withId(R.id.empty_indicator)).check(getVisibility(Visibility.VISIBLE))
+    }
+
+    @Test
+    fun testOpenDetailsFromSearch() {
+        clickMenuItem(R.id.action_search)
+
+        onView(isAssignableFrom(AutoCompleteTextView::class.java))
+            .perform(click(), typeText("en"), pressImeActionButton())
+
+        Thread.sleep(2500)
+        onView(withId(R.id.moviesGrid)).check(RecyclerViewItemCountAssertion(3))
+        onView(withId(R.id.empty_indicator)).check(getVisibility(Visibility.GONE))
+
+        onView(withId(R.id.moviesGrid)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<BindingViewHolder>(1, click())
+        )
+        Thread.sleep(2500)
+        onView(withId(R.id.title)).check(matches(withText("What Men Want")))
+        onView(withId(R.id.description)).check(matches(withText("Magically able to hear what men are thinking, a sports agent uses her newfound ability to turn the tables on her overbearing male colleagues.")))
     }
 }
