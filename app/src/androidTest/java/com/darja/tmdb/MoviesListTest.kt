@@ -155,4 +155,29 @@ class MoviesListTest {
         Espresso.pressBack()
         onView(withId(R.id.moviesGrid)).check(RecyclerViewScrollPosition(scrollPosition))
     }
+
+    @Test
+    fun testToolbarBackButton() {
+        Thread.sleep(2500)
+        val scrollPosition = 10
+
+        onView(withId(R.id.moviesGrid)).perform(
+            RecyclerViewActions.scrollToPosition<BindingViewHolder>(scrollPosition)
+        )
+        onView(withId(R.id.moviesGrid)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<BindingViewHolder>(13, click())
+        )
+        Thread.sleep(2500)
+        onView(withContentDescription(R.string.abc_action_bar_up_description)).perform(click())
+        Thread.sleep(500)
+
+        onView(allOf(
+            isAssignableFrom(TextView::class.java),
+            withParent(isAssignableFrom(Toolbar::class.java)))
+        ).check(
+            matches(withText("Movies"))
+        )
+
+        onView(withId(R.id.moviesGrid)).check(getVisibility(Visibility.VISIBLE))
+    }
 }
