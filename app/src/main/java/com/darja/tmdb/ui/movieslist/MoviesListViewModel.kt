@@ -11,8 +11,8 @@ import com.darja.tmdb.util.ext.with
 import com.darja.tmdb.util.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
 
-class MoviesListViewModel(val repo: MoviesRepo,
-                          val schedulers: SchedulerProvider): ViewModel() {
+class MoviesListViewModel(private val repo: MoviesRepo,
+                          private val schedulers: SchedulerProvider): ViewModel() {
     private val isLoadingData = MutableLiveData<Boolean>()
     private val errorData = MutableLiveData<String>()
     private val isResultEmptyData = MutableLiveData<Boolean>()

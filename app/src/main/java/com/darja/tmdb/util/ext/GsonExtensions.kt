@@ -1,16 +1,13 @@
-package com.darja.tmdb.util
+package com.darja.tmdb.util.ext
 
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import io.reactivex.Observable
-import io.reactivex.Single
 import java.nio.charset.Charset
 
-inline fun <reified T> Gson.fromJsonFile(context: Context, path: String): Single<T> {
+inline fun <reified T> Gson.fromJsonFile(context: Context, path: String): T {
     val json = getJson(context, path)
-    val body = this.fromJson<T>(json, object : TypeToken<T>() {}.type)
-    return Single.fromObservable(Observable.fromArray(body))
+    return this.fromJson<T>(json, object : TypeToken<T>() {}.type)
 }
 
 fun getJson(context: Context, path: String): String {

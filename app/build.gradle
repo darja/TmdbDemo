@@ -23,6 +23,16 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions "dest"
+    productFlavors {
+        prod {
+        }
+
+        mock {
+            applicationIdSuffix ".mock"
+            versionNameSuffix "-MOCK"
+        }
+    }
 
 
     buildTypes {
