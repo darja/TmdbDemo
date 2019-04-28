@@ -3,6 +3,7 @@ package com.darja.tmdb
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -12,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.darja.tmdb.ui.common.BindingViewHolder
 import com.darja.tmdb.util.RecyclerViewItemCountAssertion
+import com.darja.tmdb.util.RecyclerViewScrollPosition
 import com.darja.tmdb.util.clickMenuItem
 import com.darja.tmdb.util.getVisibility
 import org.hamcrest.CoreMatchers.allOf
@@ -136,5 +138,21 @@ class MoviesListTest {
         Thread.sleep(2500)
         onView(withId(R.id.title)).check(matches(withText("What Men Want")))
         onView(withId(R.id.description)).check(matches(withText("Magically able to hear what men are thinking, a sports agent uses her newfound ability to turn the tables on her overbearing male colleagues.")))
+    }
+
+    @Test
+    fun testSaveScrollPosition() {
+        Thread.sleep(2500)
+        val scrollPosition = 10
+
+        onView(withId(R.id.moviesGrid)).perform(
+            RecyclerViewActions.scrollToPosition<BindingViewHolder>(scrollPosition)
+        )
+        onView(withId(R.id.moviesGrid)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<BindingViewHolder>(13, click())
+        )
+        Thread.sleep(2500)
+        Espresso.pressBack()
+        onView(withId(R.id.moviesGrid)).check(RecyclerViewScrollPosition(scrollPosition))
     }
 }
