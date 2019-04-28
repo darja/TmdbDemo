@@ -64,6 +64,7 @@
 
                 <!-- Description -->
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:id="@+id/description"
                           android:text="@{viewModel.movie.description}"
                           tools:text="Attributes are values specified in your apps theme. Those specific attributes in your example are all values specified in the themes provided by the support library. "
                           android:textColor="@android:color/white"

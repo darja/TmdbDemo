@@ -9,7 +9,6 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
 import org.hamcrest.CoreMatchers.`is`
 
-
 fun getVisibility(visibility: ViewMatchers.Visibility): ViewAssertion? {
     return ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(visibility))
 }
